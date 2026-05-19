@@ -12,12 +12,13 @@ import enquiryRoutes from './routes/enquiry.js';
 dotenv.config();
 const app = express();
 
-// Middleware
+// Middleware  for website
 app.use(cors({
   origin: 'https://achievers-library.vercel.app',
   credentials: true
 }));
-app.use(express.json());
+// app.use(cors()); // for local host
+// app.use(express.json());
 
 // MongoDB connection
 mongoose.connect(process.env.MONGODB_URI)
