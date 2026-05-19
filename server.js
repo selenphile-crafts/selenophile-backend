@@ -13,7 +13,10 @@ dotenv.config();
 const app = express();
 
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: 'https://achievers-library.vercel.app',
+  credentials: true
+}));
 app.use(express.json());
 
 // MongoDB connection
