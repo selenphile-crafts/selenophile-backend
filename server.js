@@ -16,13 +16,13 @@ dotenv.config();
 const app = express();
 
 // Middleware  for website
-app.use(cors());
-app.use(express.json());
-// app.use(cors({
-//   origin: 'https://achievers-library.vercel.app'
-//   ,credentials: true
-// }));
+// app.use(cors());
 // app.use(express.json());
+app.use(cors({
+  origin: 'https://selenophile-zone.vercel.app/'
+  ,credentials: true
+}));
+app.use(express.json());
 
 // MongoDB connection
 mongoose.connect(process.env.MONGODB_URI)
