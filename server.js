@@ -18,9 +18,22 @@ const app = express();
 // Middleware  for website
 // app.use(cors());
 // app.use(express.json());
+const allowedOrigins = [
+  'https://selenophile-zone.vercel.app',
+  'https://selenophile-zone.vercel.app/',
+  'http://localhost:5173',
+  'http://localhost:3000'
+];
+
 app.use(cors({
-  origin: 'https://selenophile-zone.vercel.app/'
-  ,credentials: true
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.includes(origin) || origin.startsWith('http://localhost:')) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true
 }));
 app.use(express.json());
 
