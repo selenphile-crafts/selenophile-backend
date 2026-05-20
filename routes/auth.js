@@ -26,7 +26,10 @@ router.post('/login', async (req, res) => {
     const { email, password } = req.body;
 
     // ADMIN STEP 1 – hardcoded credentials from .env
-    if (email === process.env.ADMIN_EMAIL && password === process.env.ADMIN_PASSWORD) {
+    const adminEmail = (process.env.ADMIN_EMAIL || '').trim().replace(/^['"]|['"]$/g, '');
+    const adminPassword = (process.env.ADMIN_PASSWORD || '').trim().replace(/^['"]|['"]$/g, '');
+
+    if (email && email.toLowerCase() === adminEmail.toLowerCase() && password === adminPassword) {
       const token = jwt.sign(
         { role: 'admin-pending', step: 1 },
         process.env.JWT_SECRET,
@@ -68,7 +71,10 @@ router.post('/admin-first', (req, res) => {
 // Admin second step (hardcoded ID + password)
 router.post('/admin-second', (req, res) => {
   const { adminId, adminPassword } = req.body;
-  if (adminId === process.env.ADMIN_ID && adminPassword === process.env.ADMIN_SECOND_PASSWORD) {
+  const targetAdminId = (process.env.ADMIN_ID || '').trim().replace(/^['"]|['"]$/g, '');
+  const targetAdminSecondPassword = (process.env.ADMIN_SECOND_PASSWORD || '').trim().replace(/^['"]|['"]$/g, '');
+
+  if (adminId === targetAdminId && adminPassword === targetAdminSecondPassword) {
     const token = jwt.sign({ userId: 'admin', role: 'admin' }, process.env.JWT_SECRET, { expiresIn: '1d' });
     return res.json({ token });
   }
